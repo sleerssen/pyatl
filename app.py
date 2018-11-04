@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 @app.route("/pyatl", methods=['POST', 'GET'])
 def pyatl():
+    print(request.args)
     print(request.form)
     return "Hello World!"
 
