@@ -3,13 +3,13 @@ from email.policy import default
 from flask import Flask
 from flask import request
 import json
-import pprint
 import requests
 import subprocess
 import tempfile
 import urllib
 
 app = Flask(__name__)
+
 
 def s3_downloader(url, destination, version=None):
     p = urllib.parse.urlparse(url)
@@ -19,6 +19,7 @@ def s3_downloader(url, destination, version=None):
         args.extend(['--version-id', version])
     args.append(destination)
     subprocess.run(args, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
 
 @app.route("/pyatl", methods=['POST', 'GET'])
 def pyatl():
