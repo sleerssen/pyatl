@@ -40,10 +40,11 @@ def pyatl():
             with open(t.name, 'rb') as f:
                 m = email.message_from_binary_file(f, policy=default)
             for p in m.walk():
-                if not p:
+                filename = p.get_filename()
+                if not filename:
                     continue
-                print('found mime part {}'.format(p.get_filename()))
+                print('found mime part {}'.format(filename))
                 payload = p.get_payload(decode=True)
-                print(payload)
+                print(payload.decode())
         return ''
 
