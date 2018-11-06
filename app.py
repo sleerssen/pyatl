@@ -49,7 +49,7 @@ def pyatl():
                     print("The object does not exist.")
                 else:
                     raise
-            with open(t.name) as f:
+            with open(t.name, 'rb') as f:
                 m = email.message_from_binary_file(f, policy=default)
             for p in m.walk():
                 print('found mime part {}'.format(p.get_filename()))
