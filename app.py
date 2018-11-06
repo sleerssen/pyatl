@@ -1,3 +1,5 @@
+import boto3
+import botocore
 import email
 from email.policy import default
 from flask import Flask
@@ -38,7 +40,15 @@ def pyatl():
         print('new message from {} at {}'.format(sender, url))
         with tempfile.NamedTemporaryFile() as t:
             print('downloading message to {}'.format(t.name))
-            s3_downloader(url, t.name)
+            s3 = boto3.resource('s3')
+
+            try:
+                s3.Bucket(bucket_name).download_file(object_key, t.name)
+            except botocore.exceptions.ClientError as e:
+                if e.response['Error']['Code'] == "404":
+                    print("The object does not exist.")
+                else:
+                    raise
             t.seek(0)
             m = email.message_from_binary_file(t, policy=default)
             for p in m.walk():
