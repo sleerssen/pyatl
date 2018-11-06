@@ -6,21 +6,9 @@ from flask import Flask
 from flask import request
 import json
 import requests
-import subprocess
 import tempfile
-import urllib
 
 app = Flask(__name__)
-
-
-def s3_downloader(url, destination, version=None):
-    p = urllib.parse.urlparse(url)
-    assert p.scheme.lower() == 's3', 'Invalid scheme for s3 in URL "{}"'.format(url)
-    args = ['aws', 's3api', 'get-object', '--bucket', p.netloc, '--key', p.path.lstrip('/')]
-    if version:
-        args.extend(['--version-id', version])
-    args.append(destination)
-    subprocess.run(args, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
 @app.route("/pyatl", methods=['POST', 'GET'])
