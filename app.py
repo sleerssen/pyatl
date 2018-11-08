@@ -11,7 +11,7 @@ import tempfile
 app = Flask(__name__)
 
 
-@app.route("/pyatl", methods=['POST', 'GET'])
+@app.route("/pyatl", methods=['POST'])
 def pyatl():
     data = json.loads(request.data)
     if 'SubscribeURL' in data:
